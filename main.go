@@ -29,4 +29,10 @@ func main() {
 	binary.Read(file, binary.LittleEndian, &projectionInfo)
 
 	info.ShowProjectionInfo(projectionInfo)
+
+	// Navigation
+	navigationInfo := info.NavigationInfo{}
+	binary.Read(file, binary.LittleEndian, &navigationInfo)
+
+	info.ShowNavigationInfo(navigationInfo)
 }
