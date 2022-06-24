@@ -49,7 +49,7 @@ func ShowBasicInfo(data BasicInfo) {
 	utils.ShowInfo("total data length", data.TotalDataLength)
 	utils.ShowInfo("quality flag 1", data.QualityFlag1)
 	utils.ShowInfo("quality flag 2 (spare)", data.QualityFlag2)
-	utils.ShowInfo("quality flag 3", data.QualityFlag3)
+	utils.ShowInfo("quality flag 3", data.QualityFlag3, "%c")
 	utils.ShowInfo("quality flag 4", data.QualityFlag4)
 	utils.ShowInfo("file format version", data.FileFormatVersion)
 	utils.ShowInfo("file name", data.FileName)

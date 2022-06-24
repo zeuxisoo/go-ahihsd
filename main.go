@@ -23,4 +23,10 @@ func main() {
 	binary.Read(file, binary.LittleEndian, &dataInfo)
 
 	info.ShowDataInfo(dataInfo)
+
+	// Projection
+	projectionInfo := info.ProjectionInfo{}
+	binary.Read(file, binary.LittleEndian, &projectionInfo)
+
+	info.ShowProjectionInfo(projectionInfo)
 }
