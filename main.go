@@ -41,4 +41,10 @@ func main() {
 	binary.Read(file, binary.LittleEndian, &calibrationInfo)
 
 	info.ShowCalibrationInfo(calibrationInfo)
+
+	// Inter Calibration
+	interCalibrationInfo := info.InterCalibrationInfo{}
+	binary.Read(file, binary.LittleEndian, &interCalibrationInfo)
+
+	info.ShowInterCalibrationInfo(interCalibrationInfo)
 }

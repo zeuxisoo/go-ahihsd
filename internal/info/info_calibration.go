@@ -35,7 +35,7 @@ type CalibrationInfo struct {
 	ModifiedCalibrationCoefficientModifiedTime				float64
 	ModifiedCalibrationCoefficientGain						float64
 	ModifiedCalibrationCoefficientConstant					float64
-	SpareV													[104]byte
+	SpareV													[80]byte
 }
 
 func ShowCalibrationInfo(data CalibrationInfo) {
