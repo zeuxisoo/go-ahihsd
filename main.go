@@ -12,8 +12,15 @@ func main() {
 
 	defer file.Close()
 
+	// Basic
 	basicInfo := info.BasicInfo{}
 	binary.Read(file, binary.LittleEndian, &basicInfo)
 
 	info.ShowBasicInfo(basicInfo)
+
+	// Data
+	dataInfo := info.DataInfo{}
+	binary.Read(file, binary.LittleEndian, &dataInfo)
+
+	info.ShowDataInfo(dataInfo)
 }
