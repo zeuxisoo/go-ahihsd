@@ -30,3 +30,7 @@ func ShowInfo(name string, value interface{}, format ...interface{}) {
 
 	fmt.Printf("\n")
 }
+
+func ShowTitle(name string) {
+	fmt.Println(name)
+}

@@ -35,4 +35,10 @@ func main() {
 	binary.Read(file, binary.LittleEndian, &navigationInfo)
 
 	info.ShowNavigationInfo(navigationInfo)
+
+	// Calibration
+	calibrationInfo := info.CalibrationInfo{}
+	binary.Read(file, binary.LittleEndian, &calibrationInfo)
+
+	info.ShowCalibrationInfo(calibrationInfo)
 }
