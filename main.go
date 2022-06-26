@@ -53,4 +53,10 @@ func main() {
 	binary.Read(file, binary.LittleEndian, &segmentInfo)
 
 	info.ShowSegmentInfo(segmentInfo)
+
+	// Navigation Correction
+	navigationCorrectionInfo := info.NavigationCorrectionInfo{}
+
+	info.ReadNavigationCorrectionInfo(file, &navigationCorrectionInfo)
+	info.ShowNavigationCorrectionInfo(navigationCorrectionInfo, file)
 }

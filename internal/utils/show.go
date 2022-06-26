@@ -5,10 +5,10 @@ import (
 )
 
 func ShowInfo(name string, value interface{}, format ...interface{}) {
-	if len(name) > 30 {
-		fmt.Printf("%-30s  \n%-30s: ", name, " ")
+	if len(name) > 40 {
+		fmt.Printf("%-40s  \n%-40s: ", name, " ")
 	}else{
-		fmt.Printf("%-30s: ", name)
+		fmt.Printf("%-40s: ", name)
 	}
 
 	switch v := value.(type) {
