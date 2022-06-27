@@ -22,20 +22,20 @@ func NewDataInfo() *DataInfo {
 	return &DataInfo{}
 }
 
-func (data *DataInfo) Read(file io.Reader) *DataInfo {
-	binary.Read(file, binary.LittleEndian, data)
+func (d *DataInfo) Read(reader io.Reader) *DataInfo {
+	binary.Read(reader, binary.LittleEndian, d)
 
-	return data
+	return d
 }
 
-func (data *DataInfo) Show() {
+func (d *DataInfo) Show() {
 	fmt.Printf("\n# 2 Data information block -----\n")
 
-	utils.ShowInfo("header block number", data.HeaderBlockNumber)
-	utils.ShowInfo("block length", data.BlockLength)
-	utils.ShowInfo("number of bits per pixel", data.NumberOfBitsPerPixel)
-	utils.ShowInfo("number of columns", data.NumberOfColumns)
-	utils.ShowInfo("number of lines", data.NumberOfLines)
-	utils.ShowInfo("compression flag for data", data.CompressionFlagForData)
-	utils.ShowInfo("spare", data.Spare)
+	utils.ShowInfo("header block number", d.HeaderBlockNumber)
+	utils.ShowInfo("block length", d.BlockLength)
+	utils.ShowInfo("number of bits per pixel", d.NumberOfBitsPerPixel)
+	utils.ShowInfo("number of columns", d.NumberOfColumns)
+	utils.ShowInfo("number of lines", d.NumberOfLines)
+	utils.ShowInfo("compression flag for d", d.CompressionFlagForData)
+	utils.ShowInfo("spare", d.Spare)
 }

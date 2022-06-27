@@ -36,34 +36,34 @@ func NewBasicInfo() *BasicInfo {
 	return &BasicInfo{}
 }
 
-func (basic *BasicInfo) Read(file io.Reader) *BasicInfo {
-	binary.Read(file, binary.LittleEndian, basic)
+func (b *BasicInfo) Read(reader io.Reader) *BasicInfo {
+	binary.Read(reader, binary.LittleEndian, b)
 
-	return basic
+	return b
 }
 
-func (basic BasicInfo) Show() {
+func (b BasicInfo) Show() {
 	fmt.Printf("\n# 1 Basic information block -----\n")
 
-	utils.ShowInfo("header block number", basic.HeaderBlockNumber)
-	utils.ShowInfo("block length", basic.BlockLength)
-	utils.ShowInfo("total number of header blocks", basic.TotalNumberOfHeaderBlocks)
-	utils.ShowInfo("byte order", basic.ByteOrder)
-	utils.ShowInfo("satellite name", basic.SatelliteName)
-	utils.ShowInfo("processing center name", basic.ProcessingCenterName)
-	utils.ShowInfo("observation area", basic.ObservationArea)
-	utils.ShowInfo("other observation information", basic.OtherObservationInformation)
-	utils.ShowInfo("observation timeline", basic.ObservationTimeline)
-	utils.ShowInfo("observation start time", basic.ObservationStartTime)
-	utils.ShowInfo("observation end time", basic.ObservationEndTime)
-	utils.ShowInfo("file creation time", basic.FileCreationTime)
-	utils.ShowInfo("total header length", basic.TotalHeaderLength)
-	utils.ShowInfo("total data length", basic.TotalDataLength)
-	utils.ShowInfo("quality flag 1", basic.QualityFlag1)
-	utils.ShowInfo("quality flag 2 (spare)", basic.QualityFlag2)
-	utils.ShowInfo("quality flag 3", basic.QualityFlag3, "%c")
-	utils.ShowInfo("quality flag 4", basic.QualityFlag4)
-	utils.ShowInfo("file format version", basic.FileFormatVersion)
-	utils.ShowInfo("file name", basic.FileName)
-	utils.ShowInfo("spare", basic.Spare)
+	utils.ShowInfo("header block number", b.HeaderBlockNumber)
+	utils.ShowInfo("block length", b.BlockLength)
+	utils.ShowInfo("total number of header blocks", b.TotalNumberOfHeaderBlocks)
+	utils.ShowInfo("byte order", b.ByteOrder)
+	utils.ShowInfo("satellite name", b.SatelliteName)
+	utils.ShowInfo("processing center name", b.ProcessingCenterName)
+	utils.ShowInfo("observation area", b.ObservationArea)
+	utils.ShowInfo("other observation information", b.OtherObservationInformation)
+	utils.ShowInfo("observation timeline", b.ObservationTimeline)
+	utils.ShowInfo("observation start time", b.ObservationStartTime)
+	utils.ShowInfo("observation end time", b.ObservationEndTime)
+	utils.ShowInfo("file creation time", b.FileCreationTime)
+	utils.ShowInfo("total header length", b.TotalHeaderLength)
+	utils.ShowInfo("total data length", b.TotalDataLength)
+	utils.ShowInfo("quality flag 1", b.QualityFlag1)
+	utils.ShowInfo("quality flag 2 (spare)", b.QualityFlag2)
+	utils.ShowInfo("quality flag 3", b.QualityFlag3, "%c")
+	utils.ShowInfo("quality flag 4", b.QualityFlag4)
+	utils.ShowInfo("file format version", b.FileFormatVersion)
+	utils.ShowInfo("file name", b.FileName)
+	utils.ShowInfo("spare", b.Spare)
 }
