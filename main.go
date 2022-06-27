@@ -17,10 +17,8 @@ func main() {
 	basicInfo.Read(file).Show()
 
 	// Data
-	dataInfo := info.DataInfo{}
-	binary.Read(file, binary.LittleEndian, &dataInfo)
-
-	info.ShowDataInfo(dataInfo)
+	dataInfo := info.NewDataInfo()
+	dataInfo.Read(file).Show()
 
 	// Projection
 	projectionInfo := info.ProjectionInfo{}

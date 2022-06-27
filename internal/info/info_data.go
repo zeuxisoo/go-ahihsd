@@ -1,7 +1,9 @@
 package info
 
 import (
+	"encoding/binary"
 	"fmt"
+	"io"
 
 	"github.com/zeuxisoo/go-ahihsd/internal/utils"
 )
@@ -16,7 +18,17 @@ type DataInfo struct {
 	Spare					[40]byte
 }
 
-func ShowDataInfo(data DataInfo) {
+func NewDataInfo() *DataInfo {
+	return &DataInfo{}
+}
+
+func (data *DataInfo) Read(file io.Reader) *DataInfo {
+	binary.Read(file, binary.LittleEndian, data)
+
+	return data
+}
+
+func (data *DataInfo) Show() {
 	fmt.Printf("\n# 2 Data information block -----\n")
 
 	utils.ShowInfo("header block number", data.HeaderBlockNumber)
