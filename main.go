@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/binary"
 	"os"
 
 	"github.com/zeuxisoo/go-ahihsd/internal/info"
@@ -37,10 +36,8 @@ func main() {
 	interCalibrationInfo.Read(file).Show()
 
 	// Segment
-	segmentInfo := info.SegmentInfo{}
-	binary.Read(file, binary.LittleEndian, &segmentInfo)
-
-	info.ShowSegmentInfo(segmentInfo)
+	segmentInfo := info.NewSegmentInfo()
+	segmentInfo.Read(file).Show()
 
 	// Navigation Correction
 	navigationCorrectionInfo := info.NavigationCorrectionInfo{}
