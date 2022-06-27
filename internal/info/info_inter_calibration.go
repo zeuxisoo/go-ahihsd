@@ -1,7 +1,9 @@
 package info
 
 import (
+	"encoding/binary"
 	"fmt"
+	"io"
 
 	"github.com/zeuxisoo/go-ahihsd/internal/utils"
 )
@@ -23,29 +25,39 @@ type InterCalibrationInfo struct {
 	Spare 							[56]byte
 }
 
-func ShowInterCalibrationInfo(data InterCalibrationInfo) {
+func NewInterCalibrationInfo() *InterCalibrationInfo {
+	return &InterCalibrationInfo{}
+}
+
+func (i *InterCalibrationInfo) Read(reader io.Reader) *InterCalibrationInfo {
+	binary.Read(reader, binary.LittleEndian, i)
+
+	return i
+}
+
+func (i InterCalibrationInfo) Show() {
 	fmt.Printf("\n# 6 Inter Calibration information block -----\n")
 
-	utils.ShowInfo("header block number", data.HeaderBlockNumber)
-	utils.ShowInfo("block length", data.BlockLength)
+	utils.ShowInfo("header block number", i.HeaderBlockNumber)
+	utils.ShowInfo("block length", i.BlockLength)
 
 	utils.ShowTitle("GSICS calibration coefficient)")
-	utils.ShowInfo("  coefficient (Intercept)", data.GSICSCofficientIntercept)
-	utils.ShowInfo("  coefficient (Slope)", data.GSICSCofficientSlope)
-	utils.ShowInfo("  coefficient (Quadratic Term)", data.GSICSCofficientQuadraticTerm)
+	utils.ShowInfo("  coefficient (Intercept)", i.GSICSCofficientIntercept)
+	utils.ShowInfo("  coefficient (Slope)", i.GSICSCofficientSlope)
+	utils.ShowInfo("  coefficient (Quadratic Term)", i.GSICSCofficientQuadraticTerm)
 
 	utils.ShowTitle("Radiance bias and its uncertainty")
-	utils.ShowInfo("  Radiance bias", data.RadianceBias)
-	utils.ShowInfo("  Uncertainty", data.RadianceUncertainty)
-	utils.ShowInfo("  Radiance for standard scene", data.RadianceStandardScene)
+	utils.ShowInfo("  Radiance bias", i.RadianceBias)
+	utils.ShowInfo("  Uncertainty", i.RadianceUncertainty)
+	utils.ShowInfo("  Radiance for standard scene", i.RadianceStandardScene)
 
-	utils.ShowInfo("start time of validity period", data.StartTimeOfValidityPeriod)
-	utils.ShowInfo("end time of validity period", data.EndTimeOfValidityPeriod)
+	utils.ShowInfo("start time of validity period", i.StartTimeOfValidityPeriod)
+	utils.ShowInfo("end time of validity period", i.EndTimeOfValidityPeriod)
 
 	utils.ShowTitle("Radiance valid range of GSICS Calibration Coefficients")
-	utils.ShowInfo("  upper limit", data.RadianceValidRangeUpperLimit)
-	utils.ShowInfo("  lower limit", data.RadianceValidRangeLowerLimit)
+	utils.ShowInfo("  upper limit", i.RadianceValidRangeUpperLimit)
+	utils.ShowInfo("  lower limit", i.RadianceValidRangeLowerLimit)
 
-	utils.ShowInfo("File name of GSICS Correction", data.GSICSFileName)
-	utils.ShowInfo("spare", data.Spare)
+	utils.ShowInfo("File name of GSICS Correction", i.GSICSFileName)
+	utils.ShowInfo("spare", i.Spare)
 }
