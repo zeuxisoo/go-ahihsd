@@ -1,7 +1,9 @@
 package info
 
 import (
+	"encoding/binary"
 	"fmt"
+	"io"
 
 	"github.com/zeuxisoo/go-ahihsd/internal/utils"
 )
@@ -38,26 +40,36 @@ type CalibrationInfo struct {
 	SpareV													[80]byte
 }
 
-func ShowCalibrationInfo(data CalibrationInfo) {
+func NewCalibrationInfo() *CalibrationInfo {
+	return &CalibrationInfo{}
+}
+
+func (c *CalibrationInfo) Read(reader io.Reader) *CalibrationInfo {
+	binary.Read(reader, binary.LittleEndian, c)
+
+	return c
+}
+
+func (c CalibrationInfo) Show() {
 	fmt.Printf("\n# 5 Calibration information block -----\n")
 
-	utils.ShowInfo("header block number", data.HeaderBlockNumber)
-	utils.ShowInfo("block length", data.BlockLength)
-	utils.ShowInfo("band number", data.BandNumber)
-	utils.ShowInfo("central wave length", data.CentralWaveLength)
-	utils.ShowInfo("valid number of bits per pixel", data.ValidNumberOfBitsPerPixel)
-	utils.ShowInfo("count value of error pixels", data.CountValueOfErrorPixels)
-	utils.ShowInfo("count value of pixels out of scan area", data.CountValueOfPixelsOutOfScanArea)
+	utils.ShowInfo("header block number", c.HeaderBlockNumber)
+	utils.ShowInfo("block length", c.BlockLength)
+	utils.ShowInfo("band number", c.BandNumber)
+	utils.ShowInfo("central wave length", c.CentralWaveLength)
+	utils.ShowInfo("valid number of bits per pixel", c.ValidNumberOfBitsPerPixel)
+	utils.ShowInfo("count value of error pixels", c.CountValueOfErrorPixels)
+	utils.ShowInfo("count value of pixels out of scan area", c.CountValueOfPixelsOutOfScanArea)
 
 	utils.ShowTitle("count-radiance conversion equation")
-	utils.ShowInfo("   gain", data.CountRadianceConversionEquationGain)
-	utils.ShowInfo("   constant", data.CountRadianceConversionEquationConstant)
+	utils.ShowInfo("   gain", c.CountRadianceConversionEquationGain)
+	utils.ShowInfo("   constant", c.CountRadianceConversionEquationConstant)
 
 	utils.ShowTitle("transformation coefficeint(c') from radiance(I) to albedo(A)")
-	utils.ShowInfo("transformation coefficeint(c')", data.TransformationCoefficeintFromRadianceIToAlbedoA)
+	utils.ShowInfo("transformation coefficeint(c')", c.TransformationCoefficeintFromRadianceIToAlbedoA)
 
 	utils.ShowTitle("modified calibration coefficient")
-	utils.ShowInfo("   modified time", data.ModifiedCalibrationCoefficientModifiedTime)
-	utils.ShowInfo("   gain", data.ModifiedCalibrationCoefficientGain)
-	utils.ShowInfo("   constant", data.ModifiedCalibrationCoefficientConstant)
+	utils.ShowInfo("   modified time", c.ModifiedCalibrationCoefficientModifiedTime)
+	utils.ShowInfo("   gain", c.ModifiedCalibrationCoefficientGain)
+	utils.ShowInfo("   constant", c.ModifiedCalibrationCoefficientConstant)
 }

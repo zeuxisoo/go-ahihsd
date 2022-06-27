@@ -29,10 +29,8 @@ func main() {
 	navigationInfo.Read(file).Show()
 
 	// Calibration
-	calibrationInfo := info.CalibrationInfo{}
-	binary.Read(file, binary.LittleEndian, &calibrationInfo)
-
-	info.ShowCalibrationInfo(calibrationInfo)
+	calibrationInfo := info.NewCalibrationInfo()
+	calibrationInfo.Read(file).Show()
 
 	// Inter Calibration
 	interCalibrationInfo := info.InterCalibrationInfo{}
