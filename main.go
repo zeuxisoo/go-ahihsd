@@ -40,8 +40,6 @@ func main() {
 	segmentInfo.Read(file).Show()
 
 	// Navigation Correction
-	navigationCorrectionInfo := info.NavigationCorrectionInfo{}
-
-	info.ReadNavigationCorrectionInfo(file, &navigationCorrectionInfo)
-	info.ShowNavigationCorrectionInfo(navigationCorrectionInfo, file)
+	navigationCorrectionInfo := info.NewNavigationCorrectionInfo()
+	navigationCorrectionInfo.Read(file).Show()
 }
