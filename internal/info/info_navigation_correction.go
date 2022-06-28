@@ -8,21 +8,21 @@ import (
 	"github.com/zeuxisoo/go-ahihsd/internal/utils"
 )
 
-type CorrectionColumnAndLineDirectionItem struct {
+type NavigationCorrectionInfoDataItem struct {
 	LineNumberAfterRotation 		uint16
 	ShiftAmountForColumnDirection 	float32
 	ShiftAmountForLineDirection 	float32
 }
 
 type NavigationCorrectionInfo struct {
-	HeaderBlockNumber 						uint8
-	BlockLength 							uint16
-	CenterColumnOfRotation 					float32
-	CenterLineOfRotation 					float32
-	AmountOfRotationalCorrection 			float64
-	CorrectionColumnAndLineDirectionNumber 	uint16
-	CorrectionColumnAndLineDirectionItems   []CorrectionColumnAndLineDirectionItem
-	Spare 									[40]byte
+	HeaderBlockNumber 					uint8
+	BlockLength 						uint16
+	CenterColumnOfRotation 				float32
+	CenterLineOfRotation 				float32
+	AmountOfRotationalCorrection 		float64
+	NumberOfCorrectionInfoDataNumber	uint16
+	CorrectionInfoDataItems  			[]NavigationCorrectionInfoDataItem
+	Spare 								[40]byte
 }
 
 func NewNavigationCorrectionInfo() *NavigationCorrectionInfo {
@@ -35,19 +35,19 @@ func (n *NavigationCorrectionInfo) Read(reader io.Reader) *NavigationCorrectionI
 	binary.Read(reader, binary.LittleEndian, &n.CenterColumnOfRotation)
 	binary.Read(reader, binary.LittleEndian, &n.CenterLineOfRotation)
 	binary.Read(reader, binary.LittleEndian, &n.AmountOfRotationalCorrection)
-	binary.Read(reader, binary.LittleEndian, &n.CorrectionColumnAndLineDirectionNumber)
+	binary.Read(reader, binary.LittleEndian, &n.NumberOfCorrectionInfoDataNumber)
 
-	n.CorrectionColumnAndLineDirectionItems = make(
-		[]CorrectionColumnAndLineDirectionItem,
-		n.CorrectionColumnAndLineDirectionNumber,
+	n.CorrectionInfoDataItems = make(
+		[]NavigationCorrectionInfoDataItem,
+		n.NumberOfCorrectionInfoDataNumber,
 	)
 
-	for i := 0; i < int(n.CorrectionColumnAndLineDirectionNumber); i++ {
-		correctionColumnAndLineDirectionItem := CorrectionColumnAndLineDirectionItem{}
+	for i := 0; i < int(n.NumberOfCorrectionInfoDataNumber); i++ {
+		item := NavigationCorrectionInfoDataItem{}
 
-		binary.Read(reader, binary.LittleEndian, &correctionColumnAndLineDirectionItem)
+		binary.Read(reader, binary.LittleEndian, &item)
 
-		n.CorrectionColumnAndLineDirectionItems[i] = correctionColumnAndLineDirectionItem
+		n.CorrectionInfoDataItems[i] = item
 	}
 
 	binary.Read(reader, binary.LittleEndian, &n.Spare)
@@ -76,10 +76,10 @@ func (n *NavigationCorrectionInfo) Read(reader io.Reader) *NavigationCorrectionI
 	n.CenterColumnOfRotation			    = math.Float32frombits(binary.LittleEndian.Uint32(column));
 	n.CenterLineOfRotation				    = math.Float32frombits(binary.LittleEndian.Uint32(line));
 	n.AmountOfRotationalCorrection		    = math.Float64frombits(binary.LittleEndian.Uint64(amount));
-	n.CorrectionColumnAndLineDirectionNumber= binary.LittleEndian.Uint16(number);
-	n.CorrectionColumnAndLineDirectionItems = make([]CorrectionColumnAndLineDirectionItem, binary.LittleEndian.Uint16(number));
+	n.NumberOfCorrectionInfoDataNumber= binary.LittleEndian.Uint16(number);
+	n.CorrectionInfoDataItems = make([]NavigationCorrectionInfoDataItem, binary.LittleEndian.Uint16(number));
 
-	for i := 0; i < int(n.CorrectionColumnAndLineDirectionNumber); i++ {
+	for i := 0; i < int(n.NumberOfCorrectionInfoDataNumber); i++ {
 		itemNumber := make([]byte, 2)
 		itemColumn := make([]byte, 4)
 		itemLine := make([]byte, 4)
@@ -88,7 +88,7 @@ func (n *NavigationCorrectionInfo) Read(reader io.Reader) *NavigationCorrectionI
 		reader.Read(itemColumn)
 		reader.Read(itemLine)
 
-		n.CorrectionColumnAndLineDirectionItems[i] = CorrectionColumnAndLineDirectionItem{
+		n.CorrectionInfoDataItems[i] = NavigationCorrectionInfoDataItem{
 			LineNumberAfterRotation 	 : binary.LittleEndian.Uint16(itemNumber),
 			ShiftAmountForColumnDirection: math.Float32frombits(binary.LittleEndian.Uint32(itemColumn)),
 			ShiftAmountForLineDirection	 : math.Float32frombits(binary.LittleEndian.Uint32(itemLine)),
@@ -115,9 +115,9 @@ func (n NavigationCorrectionInfo) Show() {
 	utils.ShowInfo("amount of rotational correction", n.AmountOfRotationalCorrection)
 
 	utils.ShowTitle("correction information for column and line direction")
-	utils.ShowInfo("number of correction info", n.CorrectionColumnAndLineDirectionNumber)
+	utils.ShowInfo("number of correction info", n.NumberOfCorrectionInfoDataNumber)
 
-	for _, item := range n.CorrectionColumnAndLineDirectionItems {
+	for _, item := range n.CorrectionInfoDataItems {
 		utils.ShowInfo("line number after the rotation", item.LineNumberAfterRotation)
 		utils.ShowInfo("shift amount for column direction", item.ShiftAmountForColumnDirection)
 		utils.ShowInfo("shift amount for line   direction", item.ShiftAmountForLineDirection)
