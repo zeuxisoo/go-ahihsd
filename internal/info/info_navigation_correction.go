@@ -4,7 +4,6 @@ import (
 	"encoding/binary"
 	"fmt"
 	"io"
-	"math"
 
 	"github.com/zeuxisoo/go-ahihsd/internal/utils"
 )
@@ -30,6 +29,33 @@ func NewNavigationCorrectionInfo() *NavigationCorrectionInfo {
 	return &NavigationCorrectionInfo{}
 }
 
+func (n *NavigationCorrectionInfo) Read(reader io.Reader) *NavigationCorrectionInfo {
+	binary.Read(reader, binary.LittleEndian, &n.HeaderBlockNumber)
+	binary.Read(reader, binary.LittleEndian, &n.BlockLength)
+	binary.Read(reader, binary.LittleEndian, &n.CenterColumnOfRotation)
+	binary.Read(reader, binary.LittleEndian, &n.CenterLineOfRotation)
+	binary.Read(reader, binary.LittleEndian, &n.AmountOfRotationalCorrection)
+	binary.Read(reader, binary.LittleEndian, &n.CorrectionColumnAndLineDirectionNumber)
+
+	n.CorrectionColumnAndLineDirectionItems = make(
+		[]CorrectionColumnAndLineDirectionItem,
+		n.CorrectionColumnAndLineDirectionNumber,
+	)
+
+	for i := 0; i < int(n.CorrectionColumnAndLineDirectionNumber); i++ {
+		correctionColumnAndLineDirectionItem := CorrectionColumnAndLineDirectionItem{}
+
+		binary.Read(reader, binary.LittleEndian, &correctionColumnAndLineDirectionItem)
+
+		n.CorrectionColumnAndLineDirectionItems[i] = correctionColumnAndLineDirectionItem
+	}
+
+	binary.Read(reader, binary.LittleEndian, &n.Spare)
+
+	return n
+}
+
+/*
 func (n *NavigationCorrectionInfo) Read(reader io.Reader) *NavigationCorrectionInfo {
 	header := make([]byte, 1)
 	block := make([]byte, 2)
@@ -77,6 +103,7 @@ func (n *NavigationCorrectionInfo) Read(reader io.Reader) *NavigationCorrectionI
 
 	return n
 }
+*/
 
 func (n NavigationCorrectionInfo) Show() {
 	fmt.Printf("\n# 8 Navigation Correction information block -----\n")
