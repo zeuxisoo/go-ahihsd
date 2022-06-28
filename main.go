@@ -42,4 +42,8 @@ func main() {
 	// Navigation Correction
 	navigationCorrectionInfo := info.NewNavigationCorrectionInfo()
 	navigationCorrectionInfo.Read(file).Show()
+
+	// Observation
+	observationInfo := info.NewObservationInfo()
+	observationInfo.Read(file).Show()
 }
