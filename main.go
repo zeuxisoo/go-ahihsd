@@ -46,4 +46,8 @@ func main() {
 	// Observation
 	observationInfo := info.NewObservationInfo()
 	observationInfo.Read(file).Show()
+
+	// Error
+	errorInfo := info.NewErrorInfo()
+	errorInfo.Read(file).Show()
 }
