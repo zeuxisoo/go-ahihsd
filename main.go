@@ -50,4 +50,8 @@ func main() {
 	// Error
 	errorInfo := info.NewErrorInfo()
 	errorInfo.Read(file).Show()
+
+	// Spare
+	spareInfo := info.NewSpareInfo()
+	spareInfo.Read(file).Show()
 }
