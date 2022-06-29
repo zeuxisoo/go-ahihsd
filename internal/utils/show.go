@@ -18,6 +18,8 @@ func ShowInfo(name string, value interface{}, format ...interface{}) {
 		}else{
 			fmt.Printf("%d", v)
 		}
+	case int32:
+		fmt.Printf("%d", v)
 	case float32, float64:
 		if len(format) > 0 {
 			fmt.Printf(format[0].(string), v)	// custom format

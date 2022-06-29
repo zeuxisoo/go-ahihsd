@@ -15,7 +15,7 @@ type ErrorItem struct {
 
 type ErrorInfo struct {
 	HeaderBlockNumber 	uint8
-	BlockLength 		uint16
+	BlockLength 		int32
 	ErrorNumber			uint16
 	ErrorItems			[]ErrorItem
 	Spare				[40]byte
