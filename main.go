@@ -1,16 +1,27 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
-	"github.com/zeuxisoo/go-ahihsd/internal/info"
+	"github.com/urfave/cli"
+	"github.com/zeuxisoo/go-ahihsd/internal/cmd"
+)
+
+const (
+	APP_VERSION = "0.1.0"
 )
 
 func main() {
-	file, _ := os.Open("./data/HS_H08_20170623_0250_B01_R301_R10_S0101.DAT")
+	app := cli.NewApp()
+	app.Name = "AHI HSD"
+	app.Usage = "A AHI HSD Reader"
+	app.Version = APP_VERSION
+	app.Commands = []cli.Command{
+		cmd.Read,
+	}
 
-	defer file.Close()
-
-	info := info.NewInfo()
-	info.Read(file).Show()
+	if err := app.Run(os.Args); err != nil {
+		fmt.Printf("Cannot start the application: %v", err)
+	}
 }
