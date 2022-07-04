@@ -45,3 +45,37 @@ func PixelLineToLongitudeLatitude(info *info.Info, pixel, line float32, longitud
 		*longitude = *longitude + 360.0
 	}
 }
+
+func LongitudeLatitudeToPixelLine(info *info.Info, longitude, latitude float64, pixel, line *float32) {
+	*pixel = -9999.0;
+	*line  = -9999.0;
+
+	for longitude > 180 {
+		longitude = longitude - 360
+	}
+
+	for longitude < -180 {
+		longitude = longitude + 360
+	}
+
+	longitude = longitude * DEGREE_TO_RADIAN
+	latitude  = latitude * DEGREE_TO_RADIAN
+
+	phi := math.Atan(info.Projection.Rpol2Req2 * math.Tan(latitude))
+
+	re := info.Projection.EarthPolarRadius / math.Sqrt(1 - info.Projection.Req2Rpol2Req2 * math.Cos(phi) * math.Cos(phi))
+
+	r1 := info.Projection.Rs - re * math.Cos(phi) * math.Cos(longitude - info.Projection.SubLon * DEGREE_TO_RADIAN)
+	r2 := -re * math.Cos(phi) * math.Sin(longitude - info.Projection.SubLon * DEGREE_TO_RADIAN)
+	r3 := re * math.Sin(phi)
+
+	rn := math.Sqrt(r1 * r1 + r2 * r2 + r3 * r3)
+	x := math.Atan2(-r2, r1) * RADIAN_TO_DEGREE
+	y := math.Asin(-r3 / rn) * RADIAN_TO_DEGREE
+
+	c := float64(info.Projection.COFF) + x * SCL_UNIT * float64(info.Projection.CFAC)
+	l := float64(info.Projection.LOFF) + y * SCL_UNIT * float64(info.Projection.LFAC)
+
+	*pixel = float32(c)
+	*line = float32(l)
+}

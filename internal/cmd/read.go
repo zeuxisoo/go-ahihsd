@@ -68,6 +68,17 @@ func showPixelLineToLongitudeLatitude(info *info.Info) {
 		fmt.Printf(
 			"(Pix,Lin)(%8.1f,%8.1f) ==> (Lon,Lat)(%9.3f,%9.3f)\n",
 			pixel[i], line[i], longitude[i], latitude[i],
-		);
+		)
+	}
+
+	fmt.Printf("\n# convert from (longitude,latitude) to (pixel,line) ---\n")
+
+	for i := 0; i<5; i++ {
+		converter.LongitudeLatitudeToPixelLine(info, longitude[i], latitude[i], &pixel[i], &line[i])
+
+		fmt.Printf(
+			"(Lon,Lat)(%9.3f,%9.3f) ==> (Pix,Lin)(%6.1f,%6.1f)\n",
+			longitude[i], latitude[i], pixel[i], line[i],
+		)
 	}
 }
