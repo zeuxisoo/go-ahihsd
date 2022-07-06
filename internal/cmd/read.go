@@ -37,12 +37,12 @@ func runRead(c *cli.Context) error {
 	info := info.NewInfo()
 	info.Read(file).Show()
 
-	showPixelLineToLongitudeLatitude(info)
+	showPixelLineAndLongitudeLatitude(info)
 
 	return nil
 }
 
-func showPixelLineToLongitudeLatitude(info *info.Info) {
+func showPixelLineAndLongitudeLatitude(info *info.Info) {
 	longitude := [5]float64{}
 	latitude  := [5]float64{}
 	pixel     := [5]float32{}
